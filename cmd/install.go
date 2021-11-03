@@ -15,19 +15,20 @@
 package cmd
 
 import (
-	"github.com/keycloak/kcinit/console"
+	"github.com/marcelomrwin/kcinit/console"
+
+	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"os"
 )
 
 // installCmd represents the install command
 var installCmd = &cobra.Command{
 	Use:   "install",
 	Short: "Interactive configuration of kcinit",
-	Long: `Interactive configuration of kcinit.  Will prompt you for authentication server URL, realm, and other settings.`,
-	Run: install,
+	Long:  `Interactive configuration of kcinit.  Will prompt you for authentication server URL, realm, and other settings.`,
+	Run:   install,
 }
 
 func install(cmd *cobra.Command, args []string) {

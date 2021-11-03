@@ -15,7 +15,7 @@
 package cmd
 
 import (
-	"github.com/keycloak/kcinit/console"
+	"github.com/marcelomrwin/kcinit/console"
 
 	"github.com/spf13/cobra"
 )
@@ -24,7 +24,7 @@ import (
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Output version of kcinit",
-	Run: version,
+	Run:   version,
 }
 
 func version(cmd *cobra.Command, args []string) {

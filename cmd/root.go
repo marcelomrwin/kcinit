@@ -18,11 +18,12 @@ import (
 	"fmt"
 	"os"
 
+	"regexp"
+
+	"github.com/marcelomrwin/kcinit/console"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-    "regexp"
-    "github.com/keycloak/kcinit/console"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -52,7 +53,7 @@ a underscore "_" separators.  So, for example --realm-url could be specified by 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
-	rootCmd.SetOutput(os.Stderr);
+	rootCmd.SetOutput(os.Stderr)
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -67,17 +68,17 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-    rootCmd.PersistentFlags().StringVar(&configdir, "config", "", "config directory (default is $HOME/.keycloak/kcinit).")
-    rootCmd.PersistentFlags().String("realm-url", "", "realm endpoint.")
-    rootCmd.PersistentFlags().String("login-client", "", "client used for login requests.")
-    rootCmd.PersistentFlags().String("login-secret", "", "client secret used for login requests.")
-    rootCmd.PersistentFlags().Bool(SAVE, false, "Store tokens on disk.  Defaults to true.")
-    rootCmd.PersistentFlags().BoolVar(&console.NoMask, "nomask", false, "")
-    rootCmd.PersistentFlags().MarkHidden("nomask")
+	rootCmd.PersistentFlags().StringVar(&configdir, "config", "", "config directory (default is $HOME/.keycloak/kcinit).")
+	rootCmd.PersistentFlags().String("realm-url", "", "realm endpoint.")
+	rootCmd.PersistentFlags().String("login-client", "", "client used for login requests.")
+	rootCmd.PersistentFlags().String("login-secret", "", "client secret used for login requests.")
+	rootCmd.PersistentFlags().Bool(SAVE, false, "Store tokens on disk.  Defaults to true.")
+	rootCmd.PersistentFlags().BoolVar(&console.NoMask, "nomask", false, "")
+	rootCmd.PersistentFlags().MarkHidden("nomask")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-    //rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 const REALM_URL = "realm_url"
@@ -85,67 +86,61 @@ const LOGIN_CLIENT = "login_client"
 const LOGIN_SECRET = "login_secret"
 const SAVE = "save"
 
-
-
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
-    viper.SetConfigFile(ConfigPath() + "/kcinit.yaml")
-    viper.SetEnvPrefix("kcinit")
-    viper.AutomaticEnv() // read in environment variables that match
-    viper.BindEnv(REALM_URL)
-    viper.BindPFlag(REALM_URL, rootCmd.Flags().Lookup("realm-url"))
-    viper.BindEnv(LOGIN_CLIENT)
-    viper.BindPFlag(LOGIN_CLIENT, rootCmd.Flags().Lookup("login-client"))
-    viper.SetDefault(LOGIN_CLIENT, "kcinit")
-    viper.BindEnv(LOGIN_SECRET)
-    viper.BindPFlag(LOGIN_SECRET, rootCmd.Flags().Lookup("login-secret"))
-    viper.BindEnv(SAVE)
-    viper.BindPFlag(SAVE, rootCmd.Flags().Lookup(SAVE))
-    viper.SetDefault(SAVE, true)
+	viper.SetConfigFile(ConfigPath() + "/kcinit.yaml")
+	viper.SetEnvPrefix("kcinit")
+	viper.AutomaticEnv() // read in environment variables that match
+	viper.BindEnv(REALM_URL)
+	viper.BindPFlag(REALM_URL, rootCmd.Flags().Lookup("realm-url"))
+	viper.BindEnv(LOGIN_CLIENT)
+	viper.BindPFlag(LOGIN_CLIENT, rootCmd.Flags().Lookup("login-client"))
+	viper.SetDefault(LOGIN_CLIENT, "kcinit")
+	viper.BindEnv(LOGIN_SECRET)
+	viper.BindPFlag(LOGIN_SECRET, rootCmd.Flags().Lookup("login-secret"))
+	viper.BindEnv(SAVE)
+	viper.BindPFlag(SAVE, rootCmd.Flags().Lookup(SAVE))
+	viper.SetDefault(SAVE, true)
 
-
-
-
-    // If a config file is found, read it in.
-    if err := viper.ReadInConfig(); err == nil {
-        //fmt.Println("Using config file:", viper.ConfigFileUsed())
-    }
+	// If a config file is found, read it in.
+	if err := viper.ReadInConfig(); err == nil {
+		//fmt.Println("Using config file:", viper.ConfigFileUsed())
+	}
 }
 
-
 func ConfigPath() string {
-    if (configdir != "") {
-        return configdir
-    }
-    path := os.Getenv("KCINIT_CONFIG")
-    if (path == "") {
-        // Find home directory.
-        home, err := homedir.Dir()
-        if err != nil {
-            fmt.Println(err)
-            os.Exit(1)
-        }
-        path = home + "/.keycloak/kcinit"
+	if configdir != "" {
+		return configdir
+	}
+	path := os.Getenv("KCINIT_CONFIG")
+	if path == "" {
+		// Find home directory.
+		home, err := homedir.Dir()
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		path = home + "/.keycloak/kcinit"
 
-    }
-    return path
+	}
+	return path
 }
 
 func CreateTokenDir() {
-    os.MkdirAll(TokenDir(), 0700)
+	os.MkdirAll(TokenDir(), 0700)
 }
 
 func TokenFile(client string) string {
-    reg, _ := regexp.Compile("[^a-zA-Z0-9-_.]+")
+	reg, _ := regexp.Compile("[^a-zA-Z0-9-_.]+")
 
-    client = reg.ReplaceAllString(client, "_")
-    return TokenDir() + "/" + client
+	client = reg.ReplaceAllString(client, "_")
+	return TokenDir() + "/" + client
 }
 
 func TokenDir() string {
-    return ConfigPath() + "/tokens"
+	return ConfigPath() + "/tokens"
 }
 
 func CheckInstalled() {
-    InitializeClient()
+	InitializeClient()
 }
