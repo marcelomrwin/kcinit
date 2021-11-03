@@ -14,7 +14,7 @@
 
 package main
 
-import "github.com/keycloak/kcinit/cmd"
+import "github.com/marcelomrwin/kcinit/cmd"
 
 func main() {
 	cmd.Execute()
