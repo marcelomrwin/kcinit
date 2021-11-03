@@ -2,7 +2,7 @@ module github.com/marcelomrwin/kcinit
 
 go 1.17
 
-require (	
+require (
 	github.com/mitchellh/go-homedir v0.0.0-20161203194507-b8bc1bf76747
 	github.com/spf13/cobra v0.0.2
 	github.com/spf13/viper v1.0.2

@@ -9,8 +9,6 @@ github.com/hashicorp/hcl v0.0.0-20180320202055-f40e974e75af h1:g6buE1uPu/jBP1YRk
 github.com/hashicorp/hcl v0.0.0-20180320202055-f40e974e75af/go.mod h1:oZtUIOe8dh44I2q6ScRibXws4Ajl+d+nod3AaR9vL5w=
 github.com/inconshreveable/mousetrap v1.0.0 h1:Z8tu5sraLXCXIcARxBp/8cbvlwVa7Z1NHg9XEKhtSvM=
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
-github.com/keycloak/kcinit v0.0.0-20181010192927-f85c3c5390ea h1:0NlvRN0HsT9JYmU9RGGUHSI5yNRWK8Ak4Uoi66Ymmb0=
-github.com/keycloak/kcinit v0.0.0-20181010192927-f85c3c5390ea/go.mod h1:+Fk66vOgB6FG7Eor6oaQ0hToe91DmRXAKgS4xzSYmO4=
 github.com/magiconair/properties v1.7.6 h1:U+1DqNen04MdEPgFiIwdOUiqZ8qPa37xgogX/sd3+54=
 github.com/magiconair/properties v1.7.6/go.mod h1:PppfXfuXeibc/6YijjN8zIbojt8czPbwD3XqdrwzmxQ=
 github.com/mitchellh/go-homedir v0.0.0-20161203194507-b8bc1bf76747 h1:eQox4Rh4ewJF+mqYPxCkmBAirRnPaHEB26UkNuPyjlk=
