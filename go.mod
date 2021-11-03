@@ -1,4 +1,4 @@
-module github.com/keycloak/kcinit
+module github.com/marcelomrwin/kcinit
 
 go 1.17
 
